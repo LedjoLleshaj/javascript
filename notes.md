@@ -80,3 +80,138 @@ switch (expression) {
 ```js
 condition ? exprIfTrue : exprIfFalse;
 ```
+
+## Strict mode
+
+- Strict mode makes it easier to write "secure" JavaScript.
+- Strict mode changes previously accepted "bad syntax" into real errors.
+
+```js
+"use strict";
+```
+
+## Functions
+
+- Functions in javascript are first class citizens, which means they can be assigned to variables, passed as arguments to other functions, returned from other functions and have properties and methods just like any other object.
+- Arrow function syntax:
+
+No parameters
+
+```js
+const sayHello = () => console.log("Hello");
+```
+
+One parameter
+
+```js
+const sayHello = (name) => console.log(`Hello ${name}`);
+```
+
+Multiple parameters
+
+```js
+const add = (a, b) => a + b;
+```
+
+Multiple lines
+
+```js
+const add = (a, b) => {
+  const sum = a + b;
+  return sum;
+};
+```
+
+## Arrays
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const fruits = ["apples", "oranges", "pears"];
+const mixed = [22, "hello", true, undefined, null, { a: 1, b: 2 }, new Date()];
+```
+
+- We can access array elements using index
+- We can use push method to add elements `to the end` of the array
+- We can use unshift method to add elements `to the beginning` of the array
+- Arrays are not a primitive data type, they are objects so even if we use const keyword we can still change the array elements but we can't reassign the array to something else.
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+numbers[2] = 10; // [1, 2, 10, 4, 5]
+numbers.push(6); // [1, 2, 10, 4, 5, 6]
+numbers.unshift(0); // [0, 1, 2, 10, 4, 5, 6]
+numbers.pop(); // [0, 1, 2, 10, 4, 5]
+numbers.shift(); // [1, 2, 10, 4, 5]
+```
+
+### Array methods
+
+- forEach - loops through an array
+
+```js
+numbers.forEach((number) => console.log(number));
+```
+
+- map - returns a new array
+
+```js
+const numbers2 = numbers.map((number) => number * 2);
+```
+
+- filter - returns a new array based on condition
+
+```js
+const numbers3 = numbers.filter((number) => number > 2);
+```
+
+- reduce - returns a single value
+
+```js
+const numbers4 = numbers.reduce((acc, number) => acc + number, 0);
+```
+
+## Objects
+
+- Objects are key value pairs
+- We can use dot notation to access object properties
+- We can use bracket notation to access object properties
+
+```js
+const person = {
+  firstName: "Human",
+  lastName: "Being",
+  age: 9999999,
+  hobbies: ["killing", "destroying"],
+  address: {
+    Galaxy: "Milky Way",
+    Planet: "Earth",
+    State: "Your mom",
+  },
+  myAge: function () {
+    console.log(this.age); // can access age property using this keyword
+  },
+  buyCar: function (car) {
+    this.car = car; // can add new properties to the object using this keyword
+};
+console.log(person.firstName, person.lastName); // Human Being
+console.log(person["firstName"], person["lastName"]); // Human Being
+```
+
+## For Loops
+
+- for loop
+
+```js
+for (let i = 0; i < 10; i++) {
+  console.log(i);
+}
+```
+
+- for in loop
+
+```js
+const number = [1, 2, 3, 4, 5];
+for (let i in number) {
+  console.log(i);
+}
+```
