@@ -242,6 +242,24 @@ document.querySelector("tag");
 document.querySelector("[attribute]");
 ```
 
+## QuerySelectorAll
+
+- querySelectorAll is a DOM method that returns a static (not live) NodeList representing a list of the document's elements that match the specified group of selectors.
+- querySelectorAll can be used to select elements by id, class, tag name, attribute, etc.
+
+```js
+document.querySelectorAll(".class");
+```
+
+### ClassList
+
+- classList is a DOM property that returns the class name(s) of an element, as a DOMTokenList object.
+- classList can be used to add, remove, toggle and check for classes.
+
+```js
+document.querySelector("button").classList.add("class");
+```
+
 ## Events
 
 - Events are actions that happen in the browser
@@ -250,5 +268,23 @@ document.querySelector("[attribute]");
 ```js
 document.querySelector("button").addEventListener("click", () => {
   console.log("button clicked");
+});
+```
+
+## Keyboard Events
+
+- keydown - fires when a key is pressed
+- keyup - fires when a key is released
+- keypress - fires when a key is pressed and released
+
+```js
+document.querySelector("input").addEventListener("keydown", function (e) => {
+  console.log(e.key);
+});
+document.querySelector("input").addEventListener("keyup", function (e) => {
+  console.log(e.key);
+});
+document.querySelector("input").addEventListener("keypress", function (e) => {
+  console.log(e.key);
 });
 ```
