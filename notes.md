@@ -215,3 +215,40 @@ for (let i in number) {
   console.log(i);
 }
 ```
+
+## HTML
+
+- Everything in HTML is a tag and tags have attributes
+- We can use id attribute to uniquely identify an element
+- An html document is a tree structure with a root element called html
+
+## DOM
+
+- DOM stands for Document Object Model
+- DOM is a tree structure of all the elements in the html document
+- We can use querySelector to select an element from the DOM
+- DOM methods are used to manipulate the DOM and are called [web-apis](https://developer.mozilla.org/en-US/docs/Web/API).
+- Excepts DOM methods there are also timers, fetch, local storage, session storage, web workers, service workers, etc.
+
+## QuerySelector
+
+- querySelector is a DOM method that returns the first element that matches a specified CSS selector(s) in the document.
+- querySelector can be used to select elements by id, class, tag name, attribute, etc.
+
+```js
+document.querySelector("#id");
+document.querySelector(".class");
+document.querySelector("tag");
+document.querySelector("[attribute]");
+```
+
+## Events
+
+- Events are actions that happen in the browser
+- We can use addEventListener to listen for events
+
+```js
+document.querySelector("button").addEventListener("click", () => {
+  console.log("button clicked");
+});
+```
