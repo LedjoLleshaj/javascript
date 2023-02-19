@@ -334,6 +334,18 @@ const person = {
 const numbers = [1, 2, 3, 4, 5];
 const [a, b, c, d, e] = numbers;
 console.log(a, b, c, d, e); // 1 2 3 4 5
+
+const [f, g, ...rest] = numbers;
+console.log(f, g, rest); // 1 2 [ 3, 4, 5 ]
+
+const [h, , i, , j] = numbers;
+console.log(h, i, j); // 1 3 5
+
+const [k, l, m, n, o, p] = numbers; // undefined because there is no 6th element
+console.log(k, l, m, n, o, p); // 1 2 3 4 5 undefined
+
+const [q, r, s, t, u, v = 6] = numbers; // default value
+console.log(q, r, s, t, u, v); // 1 2 3 4 5 6
 ```
 
 - `Destructuring objects`
@@ -352,4 +364,7 @@ const person = {
 };
 const { firstName, lastName, age, hobbies, address } = person;
 console.log(firstName, lastName, age, hobbies, address); // Human Being 0 [ 'creating', 'destroying' ] { Galaxy: 'Milky Way', Planet: 'Earth', State: 'Your mom' }
+
+const { firstName: a, lastName: b, age: c, hobbies: d, address: e } = person;
+console.log(a, b, c, d, e); // Human Being 0 [ 'creating', 'destroying' ] { Galaxy: 'Milky Way', Planet: 'Earth', State: 'Your mom' }
 ```
