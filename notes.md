@@ -288,3 +288,68 @@ document.querySelector("input").addEventListener("keypress", function (e) => {
   console.log(e.key);
 });
 ```
+
+## This keyword
+
+- this keyword refers to the object it belongs to
+- this keyword has different values depending on where it is used
+- this keyword is created when a function is declared or in a code block
+- array functions don't have their own this value, they inherit it from the parent scope
+
+```js
+const person = {
+  firstName: "Human",
+  lastName: "Being",
+  age: 9999999,
+  hobbies: ["killing", "destroying"],
+  address: {
+    Galaxy: "Milky Way",
+    Planet: "Earth",
+    State: "Your mom",
+  },
+  myAge: function () {
+    console.log(this.age); // can access age property using this keyword
+  },
+  buyCar: function (car) {
+    this.car = car; // can add new properties to the object using this keyword
+  },
+  // XXXXXXXXXXXXXXX
+  dontDoThis: () => {
+    console.log(this); // undefined
+    // this keyword is undefined in arrow functions
+    //so it will take the value of the parent scope which is the window object
+  },
+};
+```
+
+`So inside an object we should always use regular functions instead of arrow functions.`
+`Array functions are used only when we want to inherit the this keyword from the parent scope.`
+
+## Desctructuring Arrays and Objects
+
+- Destructuring is a way to extract data from arrays and objects
+- `Destructuring arrays`
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const [a, b, c, d, e] = numbers;
+console.log(a, b, c, d, e); // 1 2 3 4 5
+```
+
+- `Destructuring objects`
+
+```js
+const person = {
+  firstName: "Human",
+  lastName: "Being",
+  age: 0,
+  hobbies: ["creating", "destroying"],
+  address: {
+    Galaxy: "Milky Way",
+    Planet: "Earth",
+    State: "Your mom",
+  },
+};
+const { firstName, lastName, age, hobbies, address } = person;
+console.log(firstName, lastName, age, hobbies, address); // Human Being 0 [ 'creating', 'destroying' ] { Galaxy: 'Milky Way', Planet: 'Earth', State: 'Your mom' }
+```
