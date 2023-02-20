@@ -192,6 +192,7 @@ const person = {
   },
   buyCar: function (car) {
     this.car = car; // can add new properties to the object using this keyword
+  },
 };
 console.log(person.firstName, person.lastName); // Human Being
 console.log(person["firstName"], person["lastName"]); // Human Being
@@ -367,4 +368,136 @@ console.log(firstName, lastName, age, hobbies, address); // Human Being 0 [ 'cre
 
 const { firstName: a, lastName: b, age: c, hobbies: d, address: e } = person;
 console.log(a, b, c, d, e); // Human Being 0 [ 'creating', 'destroying' ] { Galaxy: 'Milky Way', Planet: 'Earth', State: 'Your mom' }
+```
+
+## Spread Operator
+
+- Spread operator is used to expand an iterable object
+- Spread operator doesn't create new references
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const newNumbers = [...numbers, 6, 7, 8, 9, 10];
+console.log(newNumbers); // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+
+const person = {
+  firstName: "Human",
+  lastName: "Being",
+  age: 0,
+  hobbies: ["creating", "destroying"],
+  address: {
+    Galaxy: "Milky Way",
+    Planet: "Earth",
+    State: "Your mom",
+  },
+};
+const newPerson = { ...person, age: 9999999 };
+console.log(newPerson); // { firstName: 'Human', lastName: 'Being', age: 9999999, hobbies: [ 'creating', 'destroying' ], address: { Galaxy: 'Milky Way', Planet: 'Earth', State: 'Your mom' } }
+```
+
+## Rest Operator
+
+- Rest operator is used to collect multiple elements and condense them into a single element
+- Rest operator creates new references and must always be one '1' and as the last element.
+- Literally the opposite of spread operator and is used in function parameters like \*\*kwargs in python
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const [a, b, ...rest] = numbers;
+console.log(a, b, rest); // 1 2 [ 3, 4, 5 ]
+
+const person = {
+  firstName: "Human",
+  lastName: "Being",
+  age: 0,
+  hobbies: ["creating", "destroying"],
+  address: {
+    Galaxy: "Milky Way",
+    Planet: "Earth",
+    State: "Your mom",
+  },
+};
+const { firstName, lastName, ...rest } = person;
+```
+
+## Short Circuits (&& and ||)
+
+- Short circuits are used to check if a value is true or false
+- || - if the first value is true then it will immediately return true without even checking the second value
+
+```js
+console.log(undefined || 0 || "" || "Hello" || 12); // Hello because it is the first true value
+
+console.log(restorant || 10); // 10 because restorant is undefined
+```
+
+- && - if the first value is false then it will immediately return false without even checking the second value
+
+```js
+console.log(0 && 1 && 2 && 3 && 4); // 0 because it is the first false value
+```
+
+## Nullish Coalescing Operator (??)
+
+- Nullish coalescing operator is used to check if a value is null or undefined
+
+```js
+console.log(null ?? undefined ?? 0 ?? "" ?? "Hello" ?? 12); // Hello because it is the first non-nullish value
+```
+
+## Optional Chaining Operator (?.)
+
+- Optional chaining operator is used to check if a property exists in an object
+
+```js
+const person = {
+  firstName: "Human",
+  lastName: "Being",
+  age: 0,
+  hobbies: ["creating", "destroying"],
+  address: {
+    Galaxy: "Milky Way",
+    Planet: "Earth",
+    State: "Your mom",
+  },
+};
+
+console.log(person?.address?.Planet); // Earth
+console.log(person?.address?.Planet?.Galaxy); // undefined
+```
+
+## Logical Assignment Operators
+
+- Logical assignment operators are used to assign values to variables based on some condition
+
+```js
+let a = {
+  b: 0,
+  c: 1,
+};
+
+a.b &&= 2;
+console.log(a); // { b: 0, c: 1 }
+a.b ||= 2;
+console.log(a); // { b: 2, c: 1 }
+```
+
+## For of Loop
+
+- For of loop is used to iterate over an iterable object
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+for (const number of numbers) {
+  console.log(number);
+}
+```
+
+'Array iterator with XXX.entries()'
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+for (const [index, number] of numbers.entries()) {
+  console.log(index, number);
+}
 ```
