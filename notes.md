@@ -464,7 +464,11 @@ const person = {
 
 console.log(person?.address?.Planet); // Earth
 console.log(person?.address?.Planet?.Galaxy); // undefined
+
+console.log(person?.address?.Planet?.Galaxy ?? "Not found"); // Not found
 ```
+
+````
 
 ## Logical Assignment Operators
 
@@ -480,7 +484,7 @@ a.b &&= 2;
 console.log(a); // { b: 0, c: 1 }
 a.b ||= 2;
 console.log(a); // { b: 2, c: 1 }
-```
+````
 
 ## For of Loop
 
@@ -500,4 +504,16 @@ const numbers = [1, 2, 3, 4, 5];
 for (const [index, number] of numbers.entries()) {
   console.log(index, number);
 }
+```
+
+## Looping objects
+
+```js
+let open_days = ["Mon", "Tue", "Wed"];
+
+let schedule = `We are open ${open_days.length} days a week:`;
+for (let day of open_days) {
+  schedule += ` ${day},`;
+}
+console.log(schedule); // We are open 3 days a week: Mon, Tue, Wed,
 ```
