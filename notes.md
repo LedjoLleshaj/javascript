@@ -468,8 +468,6 @@ console.log(person?.address?.Planet?.Galaxy); // undefined
 console.log(person?.address?.Planet?.Galaxy ?? "Not found"); // Not found
 ```
 
-````
-
 ## Logical Assignment Operators
 
 - Logical assignment operators are used to assign values to variables based on some condition
@@ -484,7 +482,7 @@ a.b &&= 2;
 console.log(a); // { b: 0, c: 1 }
 a.b ||= 2;
 console.log(a); // { b: 2, c: 1 }
-````
+```
 
 ## For of Loop
 
@@ -497,7 +495,7 @@ for (const number of numbers) {
 }
 ```
 
-'Array iterator with XXX.entries()'
+- 'Array iterator with XXX.entries()'
 
 ```js
 const numbers = [1, 2, 3, 4, 5];
@@ -516,4 +514,126 @@ for (let day of open_days) {
   schedule += ` ${day},`;
 }
 console.log(schedule); // We are open 3 days a week: Mon, Tue, Wed,
+```
+
+## Maps
+
+- Maps are used to store key-value pairs
+- Maps are iterable
+- Maps are not indexed but we can use the get method to get the value of a key
+
+```js
+const restaurant = new Map();
+restaurant.set("name", "KoKar BBC");
+restaurant.set(1, "Verona, Italy");
+console.log(restaurant.set("owner", "KoKar BBC")); // return the updated map
+console.log(restaurant.get("name")); // KoKar BBC - get the value of the key
+
+restaurant
+  .set("categories", ["Italian", "Pizzeria", "Vegetarian", "Organic"])
+  .set("open", 11)
+  .set("close", 23)
+  .set(true, "We are open :)")
+  .set(false, "We are closed :(");
+
+const time = 21;
+console.log(
+  restaurant.get(
+    time > restaurant.get("open") && time < restaurant.get("close")
+  )
+); // We are open :)
+
+console.log(restorant.has("categories")); // true
+```
+
+## Functions returning functions
+
+```js
+const greet = (greeting) => {
+  return (name) => {
+    console.log(`${greeting} ${name}`);
+  };
+};
+greet("Hello")("KoKar"); // Hello KoKar
+
+const greetArr = (greeting) => (name) => console.log(`${greeting} ${name}`);
+greetArr("Hello")("KoKar"); // Hello KoKar
+```
+
+## Call, Apply and Bind
+
+- Call is used to call a function with a different this value
+- Apply is used to call a function with a different this value and accepts an array of arguments
+- Bind is used to call a function with a different this value and returns a new function
+
+```js
+const lufthansa = {
+  airline: "Lufthansa",
+  iataCode: "LH",
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+    );
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  },
+};
+
+lufthansa.book(239, "KoKar BBC"); // KoKar BBC booked a seat on Lufthansa flight LH239
+
+const eurowings = {
+  airline: "Eurowings",
+  iataCode: "EW",
+  bookings: [],
+};
+
+const book = lufthansa.book; // this will return a function
+
+// book(23, "Sarah Williams"); // TypeError: Cannot read property 'airline' of undefined because the 'this' points to undefined now that the book is a regular function
+
+// Call method
+book.call(eurowings, 23, "Sarah Williams"); // Sarah Williams booked a seat on Eurowings flight EW23
+book.call(lufthansa, 239, "Mary Cooper"); // Mary Cooper booked a seat on Lufthansa flight LH239
+
+// Apply method
+const flightData = [583, "George Cooper"];
+book.apply(eurowings, flightData); // George Cooper booked a seat on Eurowings flight EW583
+
+// Bind method
+const bookEW = book.bind(eurowings);
+const bookLH = book.bind(lufthansa);
+bookEW(23, "Steven Williams"); // Steven Williams booked a seat on Eurowings flight EW23
+bookLH(239, "Mary Cooper"); // Mary Cooper booked a seat on Lufthansa flight LH239
+```
+
+## Immediately Invoked Function Expressions (IIFE)
+
+- IIFE is a function that is called immediately after it is defined
+
+```js
+(function () {
+  console.log("This will never run again");
+})();
+
+(() => console.log("This will ALSO never run again"))();
+```
+
+## Closures
+
+- A closure is a function that has access to the parent scope even after the parent function has closed
+
+```js
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+booker(); // 1 passengers
+booker(); // 2 passengers
+booker(); // 3 passengers
 ```
