@@ -122,54 +122,6 @@ const add = (a, b) => {
 };
 ```
 
-## Arrays
-
-```js
-const numbers = [1, 2, 3, 4, 5];
-const fruits = ["apples", "oranges", "pears"];
-const mixed = [22, "hello", true, undefined, null, { a: 1, b: 2 }, new Date()];
-```
-
-- We can access array elements using index
-- We can use push method to add elements `to the end` of the array
-- We can use unshift method to add elements `to the beginning` of the array
-- Arrays are not a primitive data type, they are objects so even if we use const keyword we can still change the array elements but we can't reassign the array to something else.
-
-```js
-const numbers = [1, 2, 3, 4, 5];
-numbers[2] = 10; // [1, 2, 10, 4, 5]
-numbers.push(6); // [1, 2, 10, 4, 5, 6]
-numbers.unshift(0); // [0, 1, 2, 10, 4, 5, 6]
-numbers.pop(); // [0, 1, 2, 10, 4, 5]
-numbers.shift(); // [1, 2, 10, 4, 5]
-```
-
-### Array methods
-
-- forEach - loops through an array
-
-```js
-numbers.forEach((number) => console.log(number));
-```
-
-- map - returns a new array
-
-```js
-const numbers2 = numbers.map((number) => number * 2);
-```
-
-- filter - returns a new array based on condition
-
-```js
-const numbers3 = numbers.filter((number) => number > 2);
-```
-
-- reduce - returns a single value
-
-```js
-const numbers4 = numbers.reduce((acc, number) => acc + number, 0);
-```
-
 ## Objects
 
 - Objects are key value pairs
@@ -636,4 +588,135 @@ const booker = secureBooking();
 booker(); // 1 passengers
 booker(); // 2 passengers
 booker(); // 3 passengers
+```
+
+## Arrays
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+const fruits = ["apples", "oranges", "pears"];
+const mixed = [22, "hello", true, undefined, null, { a: 1, b: 2 }, new Date()];
+```
+
+- We can access array elements using index
+- We can use push method to add elements `to the end` of the array
+- We can use unshift method to add elements `to the beginning` of the array
+- Arrays are not a primitive data type, they are objects so even if we use const keyword we can still change the array elements but we can't reassign the array to something else.
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+numbers[2] = 10; // [1, 2, 10, 4, 5]
+numbers.push(6); // [1, 2, 10, 4, 5, 6]
+numbers.unshift(0); // [0, 1, 2, 10, 4, 5, 6]
+numbers.pop(); // [0, 1, 2, 10, 4, 5]
+numbers.shift(); // [1, 2, 10, 4, 5]
+```
+
+### Array methods
+
+- forEach - loops through an array
+
+```js
+numbers.forEach((number) => console.log(number));
+```
+
+- map - returns a new array
+
+```js
+const numbers2 = numbers.map((number) => number * 2);
+```
+
+- filter - returns a new array based on condition
+
+```js
+const numbers3 = numbers.filter((number) => number > 2);
+```
+
+- reduce - returns a single value
+
+```js
+const numbers4 = numbers.reduce((acc, number) => acc + number, 0);
+```
+
+- slice - returns a new array based on the start and end index without modifying the original array
+
+```js
+const numbers5 = numbers.slice(2, 4);
+const numbers6 = numbers.slice(-2);
+const copy = numbers.slice(); // or const copy = [...numbers];
+```
+
+- splice - modifies the original array,actually used more to eliminate elements
+
+```js
+numbers.splice(2); // numbers => [1, 2]
+```
+
+- reverse - reverses by modifying the original array
+
+```js
+numbers.reverse();
+```
+
+- concat - returns a new array by combining two arrays
+
+```js
+const numbers7 = numbers.concat(numbers2);
+console.log(numbers7); // [1, 2, 3, 4, 5, 2, 4, 6, 8, 10]
+```
+
+- at - returns the element at the given index
+
+```js
+console.log(numbers.at(2)); // 3 // same as numbers[2]
+console.log(numbers.at(-2)); // 4 // same as numbers[numbers.length - 2]
+```
+
+- for each loop - loops through an array but requires a callback function
+
+```js
+const rand_numbers = [3, 6, 2, 5, 3, 1, 10];
+
+// for loop
+for (let i = 0; i < rand_numbers.length; i++) {
+  console.log(rand_numbers[i]);
+}
+
+// for of loop
+for (let number of rand_numbers) {
+  console.log(number);
+}
+
+rand_numbers.forEach((number) => console.log(number));
+```
+
+- for each loop with callback function where it will pass the current element as a parameter
+- the function can take up to 3 parameters where the first one is the current element,
+- the second one is the index of the current element and the third one is the array itself
+
+```js
+rand_numbers.forEach((number, index, array) => {
+  console.log(`${number} is at index ${index} in ${array}`);
+});
+```
+
+## For each for maps and sets as well
+
+```js
+const currencies = new Map([
+  ["USD", "United States dollar"],
+  ["EUR", "Euro"],
+  ["GBP", "Pound sterling"],
+]);
+
+currencies.forEach((value, key, map) => {
+  console.log(`${key}: ${value}`);
+});
+
+const currenciesUnique = new Set(["USD", "GBP", "USD", "EUR", "EUR"]);
+
+currenciesUnique.forEach((value, _, map) => {
+  // key is the same as value so we can use _ as a placeholder
+  console.log(`${value}: ${value}`);
+});
 ```
