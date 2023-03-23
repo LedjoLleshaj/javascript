@@ -614,19 +614,21 @@ numbers.shift(); // [1, 2, 10, 4, 5]
 
 ### Array methods
 
+- ### More detailed examples are given in script.js file inside 11-Arrays-bankist folderS
+
 - forEach - loops through an array
 
 ```js
 numbers.forEach((number) => console.log(number));
 ```
 
-- map - returns a new array
+- map - returns a new array by applying a function to each element (mapping each element into the new array)
 
 ```js
 const numbers2 = numbers.map((number) => number * 2);
 ```
 
-- filter - returns a new array based on condition
+- filter - returns a new array based on thruthness of the condition
 
 ```js
 const numbers3 = numbers.filter((number) => number > 2);
@@ -635,7 +637,8 @@ const numbers3 = numbers.filter((number) => number > 2);
 - reduce - returns a single value
 
 ```js
-const numbers4 = numbers.reduce((acc, number) => acc + number, 0);
+// accumulator -> SNOWBALL, current element, current index, array
+const numbers4 = numbers.reduce((acc, number, index, array) => acc + number, 0);
 ```
 
 - slice - returns a new array based on the start and end index without modifying the original array
