@@ -801,3 +801,19 @@ const oneToSeven = Array.from({length = 7}, (_,i) => i + 1)
 #### - Array looping :
 
 - Based on callback function `.forEach`
+
+## Numbers
+
+- `Number.parseInt("str")` - parses a string and returns an integer
+- `Number.parseFloat("str")` - parses a string and returns a float
+- `Number.isNaN("str")` - checks if the value is NaN
+- `Number.isFinite("str")` - checks if the value is finite
+- `Number.isInteger("str")` - checks if the value is an integer
+
+```js
+Number.parseInt("30px"); // 30
+Number.parseFloat("2.5rem"); // 2.5
+Number.isNaN(20); // false
+Number.isFinite(20); // true
+Number.isInteger(20); // true
+```
