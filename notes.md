@@ -723,3 +723,81 @@ currenciesUnique.forEach((value, _, map) => {
   console.log(`${value}: ${value}`);
 });
 ```
+
+- map and flat methods on arrays are actually used alot together so `flatMap` was created but it goes only 1 lvl deep
+
+```js
+const balance = account
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+```
+
+- Sorting in Javascript
+
+```js
+//Strings
+const owners = ["Ledjo", "Elon", "Obama"];
+console.log(owners.sort()); // mutates the string
+console.log(owners);
+
+//Numbers only
+
+// return < 0, to sort A before B
+// return > 0, to sort B before A
+// movements.sort((a, b) => {
+//   // ASC order
+//   if (a > b) return 1;
+//   if (a < b) return -1;
+// });
+movements.sort((a, b) => a - b);
+
+// movements.sort((a, b) => {
+//   // DES order
+//   if (a > b) return -1;
+//   if (a < b) return 1;
+// });
+movements.sort((a, b) => b - a);
+```
+
+- Array.from method
+
+```js
+const oneToSeven = Array.from({length = 7}, (_,i) => i + 1)
+```
+
+## Summary of array methods
+
+#### - To mutate the original array :
+
+- Add to original `.push (end)` or `.unshift (start)`
+- Remove from ogirinal `.pop (end)` or `.shift (start)` or `splice (any)`
+- Other `.reverse` `.sort` `.fill`
+
+#### - To create a new array :
+
+- Computed from original `.map`
+- Filtered from original usign condition `.filter`
+- Portion of original `.slice`
+- Adding original to another `.concat`
+- Flattening `.flat` or `.flatMap`
+- Joining two arrays `.join`
+
+#### - An array index :
+
+- Based on vaue `.indexOf`
+- Based on condition `.findIndex`
+- Find element based on condition `.find`
+
+#### - Know if arrays include :
+
+- A value `.includes`
+- A condition `.some`
+- A condition `.every`
+
+#### - Transform array to value :
+
+- Boil down to a single value `.reduce`
+
+#### - Array looping :
+
+- Based on callback function `.forEach`
