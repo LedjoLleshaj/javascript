@@ -817,3 +817,165 @@ Number.isNaN(20); // false
 Number.isFinite(20); // true
 Number.isInteger(20); // true
 ```
+
+```js
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min) + 1) + min;
+
+// can use _ in between numbers to make them more readable
+cont num = 23_456_789;
+```
+
+### BigInt
+
+- `BigInt` is a new primitive type that can represent integers with arbitrary precision without limitations
+- `BigInt` is created by appending `n` to the end of an integer
+
+```js
+const huge = 1234567890123456789012345678901234567890n;
+console.log(huge); // 1234567890123456789012345678901234567890n
+```
+
+- We need to convert normal numbers to `BigInt` if we want to use them with `BigInt`
+
+```js
+const huge = 1234567890123456789012345678901234567890n;
+const num = 23;
+console.log(huge * BigInt(num)); // 283086907715328055453013345483271297022n
+```
+
+- BigInt however doesn't show the decimal part of the number
+
+```js
+console.log(20n / 3n); // 6n
+console.log(20 / 3); // 6.666666666666667
+```
+
+## Dates
+
+- `new Date()` - creates a new date object with the current date and time
+- `new Date("2021-01-01")` - creates a new date object with the given date
+- `new Date(2037, 10, 19, 15, 23, 5)` - creates a new date object with the given date
+
+- Working with dates
+
+```js
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(future);
+console.log(future.getFullYear()); // 2037
+console.log(future.getMonth()); // 10
+console.log(future.getDate()); // 19
+console.log(future.getDay()); // 4
+console.log(future.getHours()); // 15
+console.log(future.getMinutes()); // 23
+console.log(future.getSeconds()); // 0
+console.log(future.toISOString()); // 2037-11-19T14:23:00.000Z
+console.log(future.getTime()); // 2142243380000 - timestamp
+console.log(Date.now()); // timestamp now
+```
+
+- Operations with Dates
+
+```js
+// sum and substract dates
+const future = new Date(2037, 10, 19, 15, 23);
+console.log(+future); // 2142243380000
+
+const now = new Date();
+console.log((Math.abs(future - now) / 1000) * 60 * 60 * 24);
+```
+
+- Intl is a built in object that has a lot of methods for internationalization
+  - Internationalizing Dates
+  - `Intl.DateTimeFormat` - formats a date according to the locale and formatting options
+
+```js
+const future = new Date(2037, 10, 19, 15, 23);
+locale = navigator.language;
+// in order to add the extra informations in the dateformat below otherwise it would show only the date formatation
+options = {
+  hour: "numeric",
+  minute: "numeric",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  weekday: "long",
+};
+
+//                                locale
+//dateFormat = Intl.DateTimeFormat("en-US", options).format(future);
+dateFormat = Intl.DateTimeFormat(locale, options).format(future);
+```
+
+- Internationalizing Numbers
+- `Intl.NumberFormat` - formats a number according to the locale and formatting options
+
+```js
+const num = 3884764.23;
+options = {
+  style: "currency",
+  unit: "celsius",
+  currency: "EUR",
+  useGrouping: false,
+};
+
+console.log("US: ", new Intl.NumberFormat("en-US", options).format(num));
+console.log("Germany: ", new Intl.NumberFormat("de-DE", options).format(num));
+console.log("Syria: ", new Intl.NumberFormat("ar-SY", options).format(num));
+console.log(
+  navigator.language,
+  new Intl.NumberFormat(navigator.language, options).format(num)
+);
+```
+
+## Timers
+
+- `setTimeout` - calls a function once after the interval of time
+- `setInterval` - calls a function repeatedly, after each interval of time
+- `clearTimeout(nameOfTimer)` - stops the execution of the function passed to `setTimeout`
+- `clearInterval` - stops the execution of the function passed to `setInterval`
+
+```js
+const ingredients = ["olives", "bacon"];
+const pizzaTimer = setTimeout(
+  (ing1, ing2) => console.log(`Here is your pizza 🍕 with ${ing1} and ${ing2}`),
+  3000,
+  ...ingredients
+);
+console.log("Waiting...");
+
+if (ingredients.includes("bacon")) clearTimeout(pizzaTimer);
+
+setInterval(function () {
+  const now = new Date();
+  console.log(now);
+}, 1000);
+```
+
+## Countdown Timer Implementation
+
+```js
+const startLogOutTimer = function () {
+  let time = 120;
+
+  setInterval(function () {
+    labelTimer.textContent = `${Math.trunc(time / 60)}:${time % 60}`;
+
+    if (time === 0) {
+      clearInterval();
+      logout();
+    }
+
+    time--;
+  }, 1000);
+};
+```
+
+- Timer in this case starts after 1000ms and then every 1000ms it will repeat it, so incase we need to start the timer
+  immediately we need to call the function once before the setInterval.
+
+```js
+if (timer) clearInterval(timer);
+```
+
+- When doing the logout we need to clear the timer otherwise it will keep running in the background
+  and when we do the login again it will start a second timer .
