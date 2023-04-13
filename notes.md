@@ -979,3 +979,55 @@ if (timer) clearInterval(timer);
 
 - When doing the logout we need to clear the timer otherwise it will keep running in the background
   and when we do the login again it will start a second timer .
+
+## DOM Manipulation Advanced
+
+- `closest` - returns the closest ancestor of the current element (or the current element itself) which matches the selectors given in parameter. If there isn't such an ancestor, it returns null.
+
+- Sticky Navigation with Intersection Observer API
+
+```js
+// every time that the section1 is intersecting the viewport at 10% (0.1) the callback function will be executed
+const initialCoords = section1.getBoundingClientRect();
+const navHeight = nav.getBoundingClientRect().height;
+
+const obsCallback = function (entries, observer) {
+  entries.forEach((entry) => {
+    console.log(entry);
+  });
+};
+
+const obsOptions = {
+  root: null,
+  threshold: [0, 0. 2],
+  rootMargin: `-${navHeight}px`, // to start the callback function '90px' before the element is intersecting the viewport
+};
+
+const observer = new IntersectionObserver(obsCallback, obsOptions);
+observer.observe(section1);
+```
+
+## Lazy Loading Images
+
+- `lazy-loading` - is a technique that defers loading of non-critical resources at page load time. Instead, these non-critical resources are loaded at the moment of need.
+
+```js
+const imgTargets = document.querySelectorAll("img[data-src]");
+console.log(imgTargets);
+
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  console.log(entry);
+
+  if (!entry.isIntersecting) return;
+
+  // Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener("load", function () {
+    entry.target.classList.remove("lazy-img");
+  });
+
+  observer.unobserve(entry.target);
+};
+```
