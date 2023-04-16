@@ -1031,3 +1031,196 @@ const loadImg = function (entries, observer) {
   observer.unobserve(entry.target);
 };
 ```
+
+# Synchronous JavaScript vs Asynchronous JavaScript (AJAX)
+
+- Most code is synchronous, meaning that it is executed line by line, as it appears in the code, however there are some commands that take a long time to execute and we don't want to block the execution of the code, so we use asynchronous code.
+
+- `Alert` - is a synchronous code, it will block the execution of the code until the user clicks on the button.
+- `setTimeout` - is an asynchronous code, it will not block the execution of the code, it will execute the code after the time specified in the first argument.
+- `img.src` - is an asynchronous code, it will not block the execution of the code, it will execute the code after the image is loaded.
+
+## AJAX and APIs (XMLHttpRequest)
+
+- Old way of doing AJAX
+
+```js
+const request = new XMLHttpRequest();
+
+request.open("GET", "https://restcountries.com/v2/name/albania");
+request.send();
+
+request.addEventListener("load", function () {
+  console.log(this.responseText);
+
+  const [data] = JSON.parse(this.responseText);
+});
+```
+
+- New way of doing AJAX
+
+```js
+const getCountryData = function (country) {
+  // Country 1
+  getJSON(`https://restcountries.com/v3.1/name/${country}`, "Country not found")
+    .then((data) => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
+
+      if (!neighbour) throw new Error("No neighbour found!");
+
+      // Country 2
+      return getJSON(
+        `https://restcountries.com/v3.1/alpha/${neighbour}`,
+        "Country not found"
+      );
+    })
+
+    .then((data) => renderCountry(data, "neighbour"))
+    .catch((err) => {
+      console.error(`${err} 💥💥💥`);
+      renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
+};
+```
+
+- In the example above the getJSON is a helper function defined as follows in order to avoid repeating the same code over and over again.
+
+```js
+const getJSON = function (url, errorMsg = "Something went wrong") {
+  return fetch(url).then((response) => {
+    if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+
+    return response.json();
+  });
+};
+```
+
+## Promisify
+
+- In order to promisify a function we need to return a promise and then resolve or reject it.
+
+```js
+// promisifying the setTimeout function
+const wait = function (seconds) {
+  // the setTimeout will never fail so we don't need to reject the promise
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(2)
+  .then(() => {
+    console.log("I waited for 2 seconds");
+    return wait(1);
+  })
+  .then(() => {
+    console.log("I waited for 1 second");
+  });
+```
+
+```js
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   (position) => resolve(position),
+    //   (err) => reject(err)
+    // );
+
+    // the above code is the same as the below code
+    // since the resolve and reject functions are called with the same arguments
+
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+getPosition().then((pos) => console.log(pos));
+```
+
+## Consuming Promises with Async/Await
+
+- Instead of using the `then` method we can use the `async` in fornt of a function that has inside call's that return a promise and `await` keyword in fornt of these functions.
+
+```js
+const whereAmI = async function (country) {
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    // Reverse geocoding
+    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
+    if (!resGeo.ok) throw new Error("Problem getting location data");
+
+    const dataGeo = await resGeo.json();
+
+    // Country data
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${dataGeo.country}`
+    );
+    if (!res.ok) throw new Error("Problem getting country");
+
+    const data = await res.json();
+    renderCountry(data[0]);
+    return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+  } catch (err) {
+    console.error(`${err} 💥💥💥`);
+    renderError(`Something went wrong 💥💥 ${err.message}. Try again!`);
+  }
+};
+```
+
+- It is important to note that the `await` keyword can only be used inside an `async` function.
+- Best practises note that we should not mix `async` and `then` methods. We should use one or the other.
+
+## Running Promises in Parallel
+
+- We can run promises in parallel by using the `Promise.all` method.
+- Remember that the Rpomise.all with short circuit if one of the promises fails.
+
+```js
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    const data = await Promise.all([
+      getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    console.log(data.map((d) => d[0].capital));
+  } catch (err) {
+    console.error(err);
+  }
+};
+```
+
+## Race Promises
+
+- We can use the `Promise.race` method to run promises in parallel and return the first one that resolves.
+
+```js
+const get3Countries = async function (c1, c2, c3) {
+  try {
+    const data = await Promise.race([
+      getJSON(`https://restcountries.com/v3.1/name/${c1}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c2}`),
+      getJSON(`https://restcountries.com/v3.1/name/${c3}`),
+    ]);
+    console.log(data[0].capital);
+  } catch (err) {
+    console.error(err);
+  }
+};
+```
+
+- We can also use the `Promise.race` method to set a timeout for a promise like a short-circuit.
+
+```js
+const timeout = function (sec){
+  return new Promise(_ reject => setTimeout(() => reject(new Error('Request took too long!')), sec * 1000))
+}
+
+Promise.race([getJSON(`https://restcountries.com/v3.1/name/${c1}`), timeout(3)])
+```
