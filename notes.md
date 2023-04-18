@@ -1224,3 +1224,5 @@ const timeout = function (sec){
 
 Promise.race([getJSON(`https://restcountries.com/v3.1/name/${c1}`), timeout(3)])
 ```
+
+- `async` can also be used outside functions but only if we are in a module, however this comes with a blocking behaviour so be careful when using it.
