@@ -1,4 +1,8 @@
-### More Details on the projects?
+## Have a look at my notes during the course?
+
+#### :sparkles: [Notes on Javascript ](notes.md) :sparkles:
+
+### Details on the projects?
 
 **A:** Sure! Here you go:
 
@@ -7,5 +11,3 @@
 - [Bankist Site](https://bankist-dom.netlify.app/) (Advanced DOM and Events)
 - [Mapty](https://mapty.netlify.app/) (OOP, Geolocation, Project planning)
 - [forkify](https://forkify-v2.netlify.app/) (Final advanced project)
-
-
